@@ -8,85 +8,52 @@ class PictureStoryReading extends StatefulWidget {
 }
 
 class _PictureStoryReadingState extends State<PictureStoryReading> {
-  int currentIndex = 0;
   final FlutterTts flutterTts = FlutterTts();
 
-  final List<Map<String, String>> stories = [
-    {"image": "assets/jump.jpg", "text": "The boy is jumping"},
-    {"image": "assets/girl_reading.jpg", "text": "The girl is reading"},
-    {"image": "assets/dog_running.jpg", "text": "The dog is running"},
-    {"image": "assets/kids_playing.jpg", "text": "The kids are playing"},
-    {"image": "assets/cat_sleeping.jpg", "text": "The cat is sleeping"},
-    {"image": "assets/boy_eating.jpg", "text": "The boy is eating"},
-    {"image": "assets/family_picnic.jpg", "text": "The family is having a picnic"},
-    {"image": "assets/mom_cooking.jpg", "text": "Mom is cooking"},
-    {"image": "assets/man_driving.jpg", "text": "The man is driving"},
-    {"image": "assets/farmer_planting.jpg", "text": "The farmer is planting"},
-    {"image": "assets/kid_writing.jpg", "text": "The kid is writing"},
-    {"image": "assets/teacher_teaching.jpg", "text": "The teacher is teaching"},
-  ];
+  final String storyText =
+      "A little puppy named Bella got lost in the park. She barked for help, and a kind girl found her. They searched for Bella’s owner together, and soon they reunited.";
 
   @override
   void initState() {
     super.initState();
     setupTTS();
-    speakText();
+    speakStory();
   }
 
   void setupTTS() async {
-    await flutterTts.setSpeechRate(0.4); // Bagalan ang bilis ng pagsasalita
-    await flutterTts.setPitch(1.0); // Normal pitch para hindi masyadong mataas o mababa
-    await flutterTts.setLanguage("en-US"); // Siguraduhin na English ang wika
+    await flutterTts.setSpeechRate(0.5);
+    await flutterTts.setPitch(1.0);
+    await flutterTts.setLanguage("en-US");
   }
 
-  void speakText() async {
+  void speakStory() async {
     await flutterTts.stop();
-    await Future.delayed(Duration(milliseconds: 300)); // Maghintay bago magsalita (para hindi putol)
-    await flutterTts.speak(stories[currentIndex]["text"]!);
-  }
-
-  void nextStory() {
-    if (currentIndex < stories.length - 1) {
-      setState(() {
-        currentIndex++;
-      });
-      speakText();
-    }
-  }
-
-  void previousStory() {
-    if (currentIndex > 0) {
-      setState(() {
-        currentIndex--;
-      });
-      speakText();
-    }
+    await Future.delayed(Duration(milliseconds: 300));
+    await flutterTts.speak(storyText);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFEFE9D5),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: SizedBox(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 25.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Go Back button
+              SizedBox(
                 height: 60,
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+                  onPressed: () => Navigator.pop(context),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFF4A4E69),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Go Back',
                     style: TextStyle(
                       fontSize: 20,
@@ -96,63 +63,92 @@ class _PictureStoryReadingState extends State<PictureStoryReading> {
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: 40),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                IconButton(
-                  onPressed: currentIndex > 0 ? previousStory : null,
-                  icon: FaIcon(FontAwesomeIcons.circleArrowLeft, size: 100, color: currentIndex > 0 ? Colors.blue : Colors.grey),
-                ),
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Container(
-                      width: 400,
-                      height: 400,
-                      decoration: BoxDecoration(
-                        color: Colors.black26,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Image.asset(
-                        stories[currentIndex]["image"]!,
-                        width: 400,
-                        height: 500,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ],
-                ),
-                IconButton(
-                  onPressed: currentIndex < stories.length - 1 ? nextStory : null,
-                  icon: FaIcon(FontAwesomeIcons.circleArrowRight, size: 100, color: currentIndex < stories.length - 1 ? Colors.blue : Colors.grey),
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  onPressed: speakText,
-                  icon: FaIcon(FontAwesomeIcons.volumeHigh, size: 50, color: Colors.black87),
-                ),
-                SizedBox(width: 10),
-                Text(
-                  stories[currentIndex]["text"]!,
+              SizedBox(height: 20),
+
+              // Title
+              const Center(
+                child: Text(
+                  "Picture Reading Story",
                   style: TextStyle(
-                    fontSize: 40,
+                    fontSize: 50,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+                    color: Color(0xFF648BA2),
                   ),
                 ),
-              ],
-            ),
-          ],
+              ),
+              SizedBox(height: 30),
+
+              // Story Card with updated background color and reduced size
+              Container(
+                width: double.infinity,
+                height:
+                    MediaQuery.of(context).size.height * 0.55, // Reduce height
+                decoration: BoxDecoration(
+                  color: const Color(
+                      0xFFD5D8C4), // Same color as the Learn Alphabet card
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // Speaker icon aligned to the left
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: IconButton(
+                        icon: FaIcon(FontAwesomeIcons.volumeHigh,
+                            size: 40, color: Colors.blueAccent),
+                        onPressed: speakStory,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+
+                    // Image
+                    Center(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset(
+                          'assets/puppy.jpg',
+                          fit: BoxFit.cover,
+                          height:
+                              300, // Resize image to fit better in the smaller card
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 16),
+
+                    // Story Title
+                    const Center(
+                      child: Text(
+                        "The Adventure of the Lost Puppy",
+                        style: TextStyle(
+                          fontSize: 35, // Reduce font size for title
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    SizedBox(height: 12),
+
+                    // Story Text
+                    Center(
+                      child: Text(
+                        storyText,
+                        style: const TextStyle(
+                          fontSize: 20, // Reduce font size for story text
+                          color: Colors.black87,
+                          height: 1.5,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    SizedBox(height: 30), // Add some space at the bottom
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
