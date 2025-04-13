@@ -4,6 +4,10 @@ import 'package:easymind/AssessmentPage.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class StudentLandingPage extends StatefulWidget {
+  final String nickname;
+
+  StudentLandingPage({required this.nickname});
+
   @override
   _StudentLandingPageState createState() => _StudentLandingPageState();
 }
@@ -51,10 +55,7 @@ class _StudentLandingPageState extends State<StudentLandingPage> {
               children: [
                 Text(
                   "Click here to access fun reading materials designed for you!",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
+                  style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
               ],
             ),
@@ -75,10 +76,7 @@ class _StudentLandingPageState extends State<StudentLandingPage> {
               children: [
                 Text(
                   "Click here to try assessments and test your knowledge!",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
+                  style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
               ],
             ),
@@ -113,147 +111,203 @@ class _StudentLandingPageState extends State<StudentLandingPage> {
 
   @override
   Widget build(BuildContext context) {
-    double cardWidth = 400;
-    double cardHeight = 500;
-    double titleFontSize = 32;
-    double subtitleFontSize = 18;
-
     return Scaffold(
       backgroundColor: Color(0xFFEFE9D5),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Hello, Student!',
-              style: TextStyle(
-                fontSize: titleFontSize,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF4A4E69),
+      body: Column(
+        children: [
+          // Curved Header with Greeting
+          Stack(
+            children: [
+              ClipPath(
+                clipper: TopWaveClipper(),
+                child: Container(
+                  height: 200,
+                  width: double.infinity,
+                  color: Color(0xFFFBEED9),
+                ),
+              ),
+              Positioned(
+                top: 60,
+                left: 40,
+                child: Text(
+                  'Hello, ${widget.nickname}!',
+                  style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF4A4E69),
+                    fontFamily: 'Poppins',
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          // Main Content Area
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Center(
+                child: SingleChildScrollView(
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      bool isSmallScreen = constraints.maxWidth < 800;
+
+                      return isSmallScreen
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CustomCardButton(
+                                  key: _readingKey,
+                                  imagePath: 'assets/lrn.png',
+                                  title: '',
+                                  width: double.infinity,
+                                  height: 300,
+                                  onTap: () async {
+                                    tutorialCoachMark.finish();
+                                    await Future.delayed(Duration(milliseconds: 300));
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ReadingMaterialsPage(),
+                                      ),
+                                    );
+                                    showTutorialOnReturn = true;
+                                  },
+                                ),
+                                SizedBox(height: 20),
+                                CustomCardButton(
+                                  key: _assessmentKey,
+                                  imagePath: 'assets/assesment.png',
+                                  title: '',
+                                  width: double.infinity,
+                                  height: 300,
+                                  onTap: () async {
+                                    tutorialCoachMark.finish();
+                                    await Future.delayed(Duration(milliseconds: 300));
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => AssessmentPage(),
+                                      ),
+                                    );
+                                    showTutorialOnReturn = true;
+                                  },
+                                ),
+                              ],
+                            )
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CustomCardButton(
+                                  key: _readingKey,
+                                  imagePath: 'assets/lrn.png',
+                                  title: '',
+                                  width: 600,
+                                  height: 400,
+                                  onTap: () async {
+                                    tutorialCoachMark.finish();
+                                    await Future.delayed(Duration(milliseconds: 300));
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ReadingMaterialsPage(),
+                                      ),
+                                    );
+                                    showTutorialOnReturn = true;
+                                  },
+                                ),
+                                SizedBox(width: 40),
+                                CustomCardButton(
+                                  key: _assessmentKey,
+                                  imagePath: 'assets/assesment.png',
+                                  title: '',
+                                  width: 600,
+                                  height: 400,
+                                  onTap: () async {
+                                    tutorialCoachMark.finish();
+                                    await Future.delayed(Duration(milliseconds: 300));
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => AssessmentPage(),
+                                      ),
+                                    );
+                                    showTutorialOnReturn = true;
+                                  },
+                                ),
+                              ],
+                            );
+                    },
+                  ),
+                ),
               ),
             ),
-            SizedBox(height: 5),
-            Text(
-              'Start Learning!',
-              style: TextStyle(
-                fontSize: subtitleFontSize,
-                color: Color(0xFF4A4E69),
-              ),
-            ),
-            SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildFeatureCard(
-                  key: _readingKey,
-                  title: 'Reading Materials',
-                  imagePath: 'assets/reading_materials.png',
-                  imageWidth: 250,
-                  imageHeight: 250,
-                  imageTopPadding: 10,
-                  imageBorderRadius: 20,
-                  titleFontSize: 50,
-                  onTap: () async {
-                    tutorialCoachMark.finish();
-                    await Future.delayed(Duration(milliseconds: 300));
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ReadingMaterialsPage(),
-                      ),
-                    );
-                    showTutorialOnReturn = true;
-                  },
-                  cardWidth: cardWidth,
-                  cardHeight: cardHeight,
-                ),
-                SizedBox(width: 40),
-                _buildFeatureCard(
-                  key: _assessmentKey,
-                  title: 'Assessment',
-                  imagePath: 'assets/assessment.jpg',
-                  imageWidth: 250,
-                  imageHeight: 250,
-                  imageTopPadding: 10,
-                  imageBorderRadius: 20,
-                  titleFontSize: 50,
-                  titleTopPadding: 20,
-                  onTap: () async {
-                    tutorialCoachMark.finish();
-                    await Future.delayed(Duration(milliseconds: 300));
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AssessmentPage(),
-                      ),
-                    );
-                    showTutorialOnReturn = true;
-                  },
-                  cardWidth: cardWidth,
-                  cardHeight: cardHeight,
-                ),
-              ],
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
+}
 
-  Widget _buildFeatureCard({
-    required Key key,
-    required String title,
-    required VoidCallback onTap,
-    required double cardWidth,
-    required double cardHeight,
-    required double titleFontSize,
-    String? imagePath,
-    double imageWidth = 100,
-    double imageHeight = 100,
-    double imageTopPadding = 0,
-    double imageBorderRadius = 0,
-    double titleTopPadding = 0,
-  }) {
+// Custom Card Button Widget
+class CustomCardButton extends StatelessWidget {
+  final Key key;
+  final double width;
+  final double height;
+  final String imagePath;
+  final String title;
+  final VoidCallback onTap;
+
+  const CustomCardButton({
+    required this.key,
+    required this.width,
+    required this.height,
+    required this.imagePath,
+    required this.title,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return SizedBox(
       key: key,
-      width: cardWidth,
-      height: cardHeight,
+      width: width,
+      height: height,
       child: GestureDetector(
         onTap: onTap,
         child: Card(
-          color: Color(0xFF648BA2),
+          color: Color(0xFFFFF9E4),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          elevation: 6,
+          elevation: 8,
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(12.0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                if (imagePath != null)
-                  Padding(
-                    padding: EdgeInsets.only(top: imageTopPadding),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(imageBorderRadius),
-                      child: Image.asset(
-                        imagePath,
-                        width: imageWidth,
-                        height: imageHeight,
-                        fit: BoxFit.cover,
-                      ),
+                if (imagePath.isNotEmpty)
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.asset(
+                      imagePath,
+                      width: 920,
+                      height: 350,
+                      fit: BoxFit.contain,
                     ),
                   ),
-                SizedBox(height: titleTopPadding),
-                Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: titleFontSize,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+                if (title.isNotEmpty) ...[
+                  SizedBox(height: 10),
+                  Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF4A4E69),
+                    ),
                   ),
-                ),
+                ],
               ],
             ),
           ),
@@ -261,4 +315,30 @@ class _StudentLandingPageState extends State<StudentLandingPage> {
       ),
     );
   }
+}
+
+// Custom Clipper for the curved header
+class TopWaveClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path.lineTo(0, size.height - 50);
+
+    var firstControlPoint = Offset(size.width / 4, size.height);
+    var firstEndPoint = Offset(size.width / 2, size.height - 50);
+    var secondControlPoint = Offset(size.width * 3 / 4, size.height - 100);
+    var secondEndPoint = Offset(size.width, size.height - 50);
+
+    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
+        firstEndPoint.dx, firstEndPoint.dy);
+    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
+        secondEndPoint.dx, secondEndPoint.dy);
+
+    path.lineTo(size.width, 0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }

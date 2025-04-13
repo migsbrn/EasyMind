@@ -66,7 +66,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/logo.png
-    - assets/reading_materials.png
+    - assets/learn.png
     - assets/learn_alphabet.jpg
     - assets/Apple.jpg
     - assets/ball.jpg
@@ -111,11 +111,18 @@ flutter:
     - assets/cat_mat.jpg
     - assets/hand_sand.jpg
     - assets/hen_pen.jpg
-    - assets/assessment.jpg
     - assets/games.jpg
     - assets/quiz.jpg
     - assets/S-Dog.jpg
     - assets/puppy.jpg
+    - assets/lrn.png
+    - assets/assesment.png
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/poppins-bold.ttf
+          weight: 700
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

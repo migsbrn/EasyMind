@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart'; // Import Firebase Core
-import 'firebase_options.dart'; // Import the generated Firebase options
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'student_landing_page.dart';
-import 'teacher_login_screen.dart';
 
 void main() async {
-  // Ensure Flutter is initialized and Firebase is configured
   WidgetsFlutterBinding.ensureInitialized();
-  
-  // Initialize Firebase with the options from firebase_options.dart
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
   runApp(EasyMindApp());
 }
 
@@ -31,6 +26,8 @@ class EasyMindApp extends StatelessWidget {
 }
 
 class StudentLoginScreen extends StatelessWidget {
+  final TextEditingController nicknameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,59 +35,68 @@ class StudentLoginScreen extends StatelessWidget {
       body: Stack(
         children: [
           Positioned(
-            top: 35,
+            top: 50,
             left: 0,
             right: 0,
             child: Center(
-              child: Image.asset('assets/logo.png', height: 200),
+              child: Image.asset('assets/logo.png', height: 400),
             ),
           ),
-          Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'EasyMind',
-                  style: TextStyle(
-                    fontSize: 80,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF4A4E69),
-                  ),
+          Positioned(
+            top: 450,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Text(
+                'EasyMind',
+                style: TextStyle(
+                  fontSize: 80,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF648BA2),
+                  fontFamily: 'Poppins',
                 ),
-                SizedBox(height: 20),
-                CustomTextField(
-                  labelText: 'Enter your nickname',
-                  width: 800,
-                  height: 120,
-                ),
-                SizedBox(height: 20),
-                CustomButton(
-                  text: 'LOGIN',
-                  width: 500,
-                  height: 80,
-                  onPressed: () {
+              ),
+            ),
+          ),
+          Positioned(
+            top: 580,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: CustomTextField(
+                controller: nicknameController,
+                labelText: 'Enter your nickname',
+                width: 800,
+                height: 120,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 750,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: CustomButton(
+                text: 'LOGIN',
+                width: 800,
+                height: 80,
+                onPressed: () {
+                  String nickname = nicknameController.text.trim();
+                  if (nickname.isNotEmpty) {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => StudentLandingPage()),
+                      MaterialPageRoute(
+                        builder: (context) => StudentLandingPage(nickname: nickname),
+                      ),
                     );
-                  },
-                ),
-                SizedBox(height: 20),
-                GestureDetector(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => TeacherLoginScreen()),
-                  ),
-                  child: Text(
-                    'Login as Teacher',
-                    style: TextStyle(
-                      fontSize: 30,
-                      color: Color(0xFF4A4E69),
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                ),
-              ],
+                  } else {
+                    // Show an error message if nickname is empty
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Please enter a nickname")),
+                    );
+                  }
+                },
+              ),
             ),
           ),
         ],
@@ -103,9 +109,11 @@ class CustomTextField extends StatelessWidget {
   final String labelText;
   final double width;
   final double height;
+  final TextEditingController controller;
 
   const CustomTextField({
     required this.labelText,
+    required this.controller,
     this.width = 380,
     this.height = 60,
   });
@@ -123,7 +131,8 @@ class CustomTextField extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15),
         child: TextField(
-          style: TextStyle(fontSize: 40, color: Colors.black), // Large font size while typing
+          controller: controller,
+          style: TextStyle(fontSize: 40, color: Colors.black),
           textAlignVertical: TextAlignVertical.center,
           decoration: InputDecoration(
             border: InputBorder.none,
@@ -165,7 +174,7 @@ class CustomButton extends StatelessWidget {
         ),
         child: Text(
           text,
-          style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold, color: Colors.white), // Larger font size
+          style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),
     );
