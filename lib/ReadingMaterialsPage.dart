@@ -167,44 +167,39 @@ class _ReadingMaterialsPageState extends State<ReadingMaterialsPage> {
                 children: [
                   _buildReadingMaterialCard(
                     key: _alphabetKey,
-                    title: 'Learn the Alphabets',
-                    imagePath: 'assets/learn_alphabet.jpg',
-                    fontSize: 40,
-                    imageWidth: 230,
-                    imageHeight: 230,
+                    imagePath: 'assets/alpha.png',
+                    imageWidth: 540,
+                    imageHeight: 520,
                     imageRadius: 15,
+                    backgroundColor: Color(0xFFFFF9E4),
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => LearnTheAlphabets()),
+                        MaterialPageRoute(builder: (context) => LearnTheAlphabets()),
                       );
                     },
                   ),
                   _buildReadingMaterialCard(
                     key: _pictureStoryKey,
-                    title: 'Picture Story Reading',
-                    imagePath: 'assets/picture_story.jpg',
-                    fontSize: 40,
-                    imageWidth: 230,
-                    imageHeight: 230,
+                    imagePath: 'assets/pic-story.png',
+                    imageWidth: 540,
+                    imageHeight: 520,
                     imageRadius: 15,
+                    backgroundColor: Color(0xFFFCF5D9),
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => PictureStoryReading()),
+                        MaterialPageRoute(builder: (context) => PictureStoryReading()),
                       );
                     },
                   ),
                   _buildReadingMaterialCard(
                     key: _rhymeKey,
-                    title: 'Rhyme and Read',
-                    imagePath: 'assets/Rhyme_Read.jpg',
-                    fontSize: 40,
-                    imageWidth: 223,
-                    imageHeight: 228,
+                    imagePath: 'assets/Rhyme_Read.png',
+                    imageWidth: 540,
+                    imageHeight: 520,
                     imageRadius: 15,
+                    backgroundColor: Color(0xFFFDFDFD), // ✅ Updated here
                     onTap: () {
                       Navigator.push(
                         context,
@@ -223,15 +218,13 @@ class _ReadingMaterialsPageState extends State<ReadingMaterialsPage> {
 
   Widget _buildReadingMaterialCard({
     required Key key,
-    required String title,
     String? imagePath,
-    double fontSize = 20,
     double imageWidth = 120,
     double imageHeight = 120,
     double imageRadius = 10,
     double imageOffset = 0,
-    double textOffset = 0,
     VoidCallback? onTap,
+    Color backgroundColor = const Color(0xFF648BA2),
   }) {
     return InkWell(
       key: key,
@@ -240,7 +233,7 @@ class _ReadingMaterialsPageState extends State<ReadingMaterialsPage> {
         width: 220,
         height: 400,
         decoration: BoxDecoration(
-          color: Color(0xFF648BA2),
+          color: backgroundColor,
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
@@ -270,20 +263,6 @@ class _ReadingMaterialsPageState extends State<ReadingMaterialsPage> {
                   ),
                 ),
               ),
-            Positioned(
-              bottom: 20 + textOffset,
-              left: 10,
-              right: 10,
-              child: Text(
-                title,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: fontSize,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
           ],
         ),
       ),

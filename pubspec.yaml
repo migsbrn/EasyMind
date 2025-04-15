@@ -67,7 +67,7 @@ flutter:
   assets:
     - assets/logo.png
     - assets/learn.png
-    - assets/learn_alphabet.jpg
+    - assets/alpha.png
     - assets/Apple.jpg
     - assets/ball.jpg
     - assets/cat.jpg
@@ -98,7 +98,7 @@ flutter:
     - assets/girl_reading.jpg
     - assets/dog_running.jpg
     - assets/kids_playing.jpg
-    - assets/picture_story.jpg
+    - assets/pic-story.png
     - assets/boy_eating.jpg
     - assets/cat_sleeping.jpg
     - assets/family_picnic.jpg
@@ -107,7 +107,7 @@ flutter:
     - assets/man_driving.jpg
     - assets/mom_cooking.jpg
     - assets/teacher_teaching.jpg
-    - assets/Rhyme_Read.jpg
+    - assets/Rhyme_Read.png
     - assets/cat_mat.jpg
     - assets/hand_sand.jpg
     - assets/hen_pen.jpg
