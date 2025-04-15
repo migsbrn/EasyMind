@@ -132,7 +132,7 @@ class _StudentLandingPageState extends State<StudentLandingPage> {
                 child: Text(
                   'Hello, ${widget.nickname}!',
                   style: TextStyle(
-                    fontSize: 40,
+                    fontSize: 45,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF4A4E69),
                     fontFamily: 'Poppins',
