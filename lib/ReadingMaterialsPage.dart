@@ -38,10 +38,7 @@ class _ReadingMaterialsPageState extends State<ReadingMaterialsPage> {
             align: ContentAlign.bottom,
             child: Text(
               "Start here to learn the alphabet with fun visuals!",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-              ),
+              style: TextStyle(color: Colors.white, fontSize: 18),
             ),
           ),
         ],
@@ -57,10 +54,7 @@ class _ReadingMaterialsPageState extends State<ReadingMaterialsPage> {
             align: ContentAlign.bottom,
             child: Text(
               "Read engaging picture stories to enhance your reading skills!",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-              ),
+              style: TextStyle(color: Colors.white, fontSize: 18),
             ),
           ),
         ],
@@ -76,10 +70,7 @@ class _ReadingMaterialsPageState extends State<ReadingMaterialsPage> {
             align: ContentAlign.bottom,
             child: Text(
               "Explore rhymes and practice reading with rhythm and fun!",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-              ),
+              style: TextStyle(color: Colors.white, fontSize: 18),
             ),
           ),
         ],
@@ -114,104 +105,117 @@ class _ReadingMaterialsPageState extends State<ReadingMaterialsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFEFE9D5),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: SizedBox(
-                height: 60,
-                width: 180,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF4A4E69),
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+      body: Stack(
+        children: [
+          // Wave Header
+          ClipPath(
+            clipper: TopWaveClipper(),
+            child: Container(
+              height: 220,
+              width: double.infinity,
+              color: Color(0xFFFBEED9),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: SizedBox(
+                    height: 60,
+                    width: 180,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Text(
+                        'Go Back',
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF4A4E69),
+                        ),
+                      ),
                     ),
                   ),
+                ),
+                SizedBox(height: 10),
+                Center(
                   child: Text(
-                    'Go Back',
+                    "Let's Start Learning",
                     style: TextStyle(
-                      fontSize: 25,
+                      fontSize: 45,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
                   ),
                 ),
-              ),
-            ),
-            SizedBox(height: 20),
-            Center(
-              child: Text(
-                "Reading Materials",
-                style: TextStyle(
-                  fontSize: 45,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF4A4E69),
+                SizedBox(height: 20),
+                Expanded(
+                  child: GridView.count(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 15,
+                    mainAxisSpacing: 15,
+                    childAspectRatio: 0.7,
+                    children: [
+                      _buildReadingMaterialCard(
+                        key: _alphabetKey,
+                        imagePath: 'assets/alpha.png',
+                        imageWidth: 540,
+                        imageHeight: 520,
+                        imageRadius: 15,
+                        backgroundColor: Color(0xFFFFF9E4),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => LearnTheAlphabets()),
+                          );
+                        },
+                      ),
+                      _buildReadingMaterialCard(
+                        key: _pictureStoryKey,
+                        imagePath: 'assets/pic-story.png',
+                        imageWidth: 540,
+                        imageHeight: 520,
+                        imageRadius: 15,
+                        backgroundColor: Color(0xFFFCF5D9),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => PictureStoryReading()),
+                          );
+                        },
+                      ),
+                      _buildReadingMaterialCard(
+                        key: _rhymeKey,
+                        imagePath: 'assets/Rhyme_Read.png',
+                        imageWidth: 540,
+                        imageHeight: 520,
+                        imageRadius: 15,
+                        backgroundColor: Color(0xFFFDFDFD),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => RhymeAndRead()),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
-            SizedBox(height: 20),
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 3,
-                crossAxisSpacing: 15,
-                mainAxisSpacing: 15,
-                childAspectRatio: 0.7,
-                children: [
-                  _buildReadingMaterialCard(
-                    key: _alphabetKey,
-                    imagePath: 'assets/alpha.png',
-                    imageWidth: 540,
-                    imageHeight: 520,
-                    imageRadius: 15,
-                    backgroundColor: Color(0xFFFFF9E4),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => LearnTheAlphabets()),
-                      );
-                    },
-                  ),
-                  _buildReadingMaterialCard(
-                    key: _pictureStoryKey,
-                    imagePath: 'assets/pic-story.png',
-                    imageWidth: 540,
-                    imageHeight: 520,
-                    imageRadius: 15,
-                    backgroundColor: Color(0xFFFCF5D9),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => PictureStoryReading()),
-                      );
-                    },
-                  ),
-                  _buildReadingMaterialCard(
-                    key: _rhymeKey,
-                    imagePath: 'assets/Rhyme_Read.png',
-                    imageWidth: 540,
-                    imageHeight: 520,
-                    imageRadius: 15,
-                    backgroundColor: Color(0xFFFDFDFD), // ✅ Updated here
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => RhymeAndRead()),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -268,4 +272,30 @@ class _ReadingMaterialsPageState extends State<ReadingMaterialsPage> {
       ),
     );
   }
+}
+
+// ✅ Custom Clipper for the curved header
+class TopWaveClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path.lineTo(0, size.height - 50);
+
+    var firstControlPoint = Offset(size.width / 4, size.height);
+    var firstEndPoint = Offset(size.width / 2, size.height - 50);
+    var secondControlPoint = Offset(size.width * 3 / 4, size.height - 100);
+    var secondEndPoint = Offset(size.width, size.height - 50);
+
+    path.quadraticBezierTo(
+        firstControlPoint.dx, firstControlPoint.dy, firstEndPoint.dx, firstEndPoint.dy);
+    path.quadraticBezierTo(
+        secondControlPoint.dx, secondControlPoint.dy, secondEndPoint.dx, secondEndPoint.dy);
+
+    path.lineTo(size.width, 0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
